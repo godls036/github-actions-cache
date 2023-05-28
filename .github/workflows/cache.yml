@@ -6,8 +6,13 @@ jobs:
         steps:
             - uses: actions/checkout/@v3
             - uses: actions/cache@v3
+              id: pip-cache
               with:
                   path: ~/.cache/pip
                   key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
                   restore-keys: ${{ runner.os }}-pip-
+            - if: steps.pip-cache.outputs.cache-hit == 'true'
+              run: echo 'pip cache hit!'
+            - if: steps.pip-cache.outputs.cache-hit == 'false'
+              run: echo 'pip cache missed!'
             - run: pip install -r requirements.txt
