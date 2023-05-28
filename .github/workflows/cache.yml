@@ -6,14 +6,10 @@ jobs:
         steps:
             - uses: actions/checkout/@v3
             - uses: actions/setup-python@v4
-              with:
-                  python-version: "3.8"
-            - uses: actions/cache@v3
               id: pip-cache
               with:
-                  path: ~/.cache/pip
-                  key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-                  restore-keys: ${{ runner.os }}-pip-
+                  python-version: "3.8"
+                  cache: pip
             - if: steps.pip-cache.outputs.cache-hit == 'true'
               run: echo 'pip cache hit!'
             - if: steps.pip-cache.outputs.cache-hit == 'false'
